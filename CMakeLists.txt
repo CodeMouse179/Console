@@ -4,5 +4,6 @@ project(SystemConsole)
 
 add_executable(sc
     Console.hpp
+    String.hpp
     Example.cpp
 )
