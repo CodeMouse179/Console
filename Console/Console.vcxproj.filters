@@ -3,6 +3,7 @@
   <ItemGroup>
     <ClInclude Include="..\Console.hpp" />
     <ClInclude Include="..\String.hpp" />
+    <ClInclude Include="..\Singleton.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Example.cpp" />
