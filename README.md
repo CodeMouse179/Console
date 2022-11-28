@@ -1,4 +1,4 @@
-# Console 0.4
+# Console 0.4.0
 
 System.Console in C++
 
