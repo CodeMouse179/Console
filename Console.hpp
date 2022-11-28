@@ -1,10 +1,10 @@
 ﻿//     +--------------------------------------------------------------------------------+
 //     |                                  Console v0.2.0                                |
 //     |  Introduction : System.Console in C++                                          |
-//     |  Modified date : 2022/10/28                                                    |
+//     |  Modified date : 2022/11/28                                                    |
 //     |  License : MIT                                                                 |
-//     |  Source code : https://github.com/CodeMouse179/Console                         |
-//     |  Doc : https://github.com/CodeMouse179/Console/blob/main/Doc/README.md         |
+//     |  Source Code : https://github.com/CodeMouse179/Console                         |
+//     |  Readme : https://github.com/CodeMouse179/Console/blob/main/README.md          |
 //     |                                                                                |
 //     |                             Designer : CodeMouse179                            |
 //     |  Email : codemouse179@gmail.com                                                |
