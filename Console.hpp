@@ -1,7 +1,7 @@
 ﻿//     +--------------------------------------------------------------------------------+
-//     |                                  Console v0.4.0                                |
+//     |                                  Console v0.5.0                                |
 //     |  Introduction : System.Console in C++                                          |
-//     |  Modified Date : 2022/11/29                                                    |
+//     |  Modified Date : 2022/11/30                                                    |
 //     |  License : MIT                                                                 |
 //     |  Source Code : https://github.com/CodeMouse179/Console                         |
 //     |  Readme : https://github.com/CodeMouse179/Console/blob/main/README.md          |
@@ -18,13 +18,17 @@
 //Versioning refer to Semantic Versioning 2.0.0 : https://semver.org/
 
 #define SYSTEM_CONSOLE_VERSION_MAJOR 0
-#define SYSTEM_CONSOLE_VERSION_MINOR 4
+#define SYSTEM_CONSOLE_VERSION_MINOR 5
 #define SYSTEM_CONSOLE_VERSION_PATCH 0
 #define SYSTEM_CONSOLE_VERSION (SYSTEM_CONSOLE_VERSION_MAJOR << 16 | SYSTEM_CONSOLE_VERSION_MINOR << 8 | SYSTEM_CONSOLE_VERSION_PATCH)
-#define SYSTEM_CONSOLE_VERSION_STRING "0.4.0"
+#define SYSTEM_CONSOLE_VERSION_STRING "0.5.0"
 
 #include "String.hpp"       //System.String for C++
 #include "Singleton.hpp"    //CodeMouse.Singleton for C++
+
+#ifndef ESC
+#define ESC "\033"   //00011011 = 033 = 27 = 0x1b
+#endif
 
 namespace System
 {
@@ -88,6 +92,26 @@ namespace System
         }
 
     public: //Methods:
+        static bool SetCursorPosition(int left, int top)
+        {
+            if (left < 0) return false;
+            if (top < 0) return false;
+            int outputHandle = Console::OutputHandle();
+            if (outputHandle == 0) return false;
+#ifdef SYSTEM_WINDOWS
+            HANDLE stdOutputHandle = (HANDLE)outputHandle;
+            COORD position;
+            position.X = left;
+            position.Y = top;
+            BOOL bSetConsoleCursorPosition = SetConsoleCursorPosition(stdOutputHandle, position);
+            return bSetConsoleCursorPosition;
+#endif
+#ifdef SYSTEM_LINUX
+            std::string s = StringA::Format("{0}[{1};{2}H", U8(ESC), left + 1, top + 1);
+            return Console::Write(s);
+#endif
+        }
+
         static bool SetInputHandle(int inputHandle)
         {
             if (inputHandle == 0) return false;
@@ -113,6 +137,9 @@ namespace System
             if (stdOutputHandle == INVALID_HANDLE_VALUE) return false;
             //output buffer:
             std::wstring outputBuffer;
+#ifdef SYSTEM_CONSOLE_ONLY_UTF8
+            outputBuffer = StringA::StringToWstring(value, System::StringEncoding::UTF8);
+#else
             //check value encoding:
             if (StringA::IsValidUTF8(value))
             {
@@ -125,6 +152,7 @@ namespace System
             {
                 outputBuffer = StringA::StringToWstring(value, System::StringEncoding::ANSI);
             }
+#endif
             //output to console:
             DWORD written;
             BOOL bWriteConsoleW = WriteConsoleW(stdOutputHandle, outputBuffer.c_str(), outputBuffer.size(), &written, NULL);
