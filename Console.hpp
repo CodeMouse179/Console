@@ -1,5 +1,5 @@
 ﻿//     +--------------------------------------------------------------------------------+
-//     |                                  Console v0.5.1                                |
+//     |                                  Console v0.5.2                                |
 //     |  Introduction : System.Console in C++                                          |
 //     |  Modified Date : 2022/11/30                                                    |
 //     |  License : MIT                                                                 |
@@ -19,9 +19,9 @@
 
 #define SYSTEM_CONSOLE_VERSION_MAJOR 0
 #define SYSTEM_CONSOLE_VERSION_MINOR 5
-#define SYSTEM_CONSOLE_VERSION_PATCH 1
+#define SYSTEM_CONSOLE_VERSION_PATCH 2
 #define SYSTEM_CONSOLE_VERSION (SYSTEM_CONSOLE_VERSION_MAJOR << 16 | SYSTEM_CONSOLE_VERSION_MINOR << 8 | SYSTEM_CONSOLE_VERSION_PATCH)
-#define SYSTEM_CONSOLE_VERSION_STRING "0.5.1"
+#define SYSTEM_CONSOLE_VERSION_STRING "0.5.2"
 
 #include "String.hpp"       //System.String for C++
 #include "Singleton.hpp"    //CodeMouse.Singleton for C++
@@ -99,12 +99,17 @@ namespace System
             int outputHandle = Console::OutputHandle();
             if (outputHandle == 0) return false;
 #ifdef SYSTEM_WINDOWS
+#ifdef SYSTEM_CONSOLE_FORCE_VT
+            std::string s = StringA::Format("{0}[{1};{2}H", U8(ESC), top + 1, left + 1);
+            return Console::Write(s);
+#else
             HANDLE stdOutputHandle = (HANDLE)outputHandle;
             COORD position;
             position.X = left;
             position.Y = top;
             BOOL bSetConsoleCursorPosition = SetConsoleCursorPosition(stdOutputHandle, position);
             return bSetConsoleCursorPosition;
+#endif
 #endif
 #ifdef SYSTEM_LINUX
             std::string s = StringA::Format("{0}[{1};{2}H", U8(ESC), top + 1, left + 1);
