@@ -1,5 +1,5 @@
 ﻿//     +--------------------------------------------------------------------------------+
-//     |                                  Console v0.5.0                                |
+//     |                                  Console v0.5.1                                |
 //     |  Introduction : System.Console in C++                                          |
 //     |  Modified Date : 2022/11/30                                                    |
 //     |  License : MIT                                                                 |
@@ -19,9 +19,9 @@
 
 #define SYSTEM_CONSOLE_VERSION_MAJOR 0
 #define SYSTEM_CONSOLE_VERSION_MINOR 5
-#define SYSTEM_CONSOLE_VERSION_PATCH 0
+#define SYSTEM_CONSOLE_VERSION_PATCH 1
 #define SYSTEM_CONSOLE_VERSION (SYSTEM_CONSOLE_VERSION_MAJOR << 16 | SYSTEM_CONSOLE_VERSION_MINOR << 8 | SYSTEM_CONSOLE_VERSION_PATCH)
-#define SYSTEM_CONSOLE_VERSION_STRING "0.5.0"
+#define SYSTEM_CONSOLE_VERSION_STRING "0.5.1"
 
 #include "String.hpp"       //System.String for C++
 #include "Singleton.hpp"    //CodeMouse.Singleton for C++
@@ -107,7 +107,7 @@ namespace System
             return bSetConsoleCursorPosition;
 #endif
 #ifdef SYSTEM_LINUX
-            std::string s = StringA::Format("{0}[{1};{2}H", U8(ESC), left + 1, top + 1);
+            std::string s = StringA::Format("{0}[{1};{2}H", U8(ESC), top + 1, left + 1);
             return Console::Write(s);
 #endif
         }
