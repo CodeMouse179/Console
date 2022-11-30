@@ -1,4 +1,5 @@
 ﻿#define SYSTEM_CONSOLE_FORCE_VT
+#define SYSTEM_CONSOLE_ONLY_UTF8
 #include "Console.hpp"
 int main()
 {

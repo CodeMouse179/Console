@@ -32,6 +32,17 @@
 
 namespace System
 {
+    struct ConsoleKeyInfo
+    {
+    public:
+        int KeyChar;
+
+        ConsoleKeyInfo()
+        {
+            this->KeyChar = 0;
+        }
+    };
+
     class ConsoleIO : public CodeMouse::Singleton<ConsoleIO>
     {
     private:
@@ -104,6 +115,8 @@ namespace System
             return Console::Write(s);
 #else
             HANDLE stdOutputHandle = (HANDLE)outputHandle;
+            if (stdOutputHandle == NULL) return false;
+            if (stdOutputHandle == INVALID_HANDLE_VALUE) return false;
             COORD position;
             position.X = left;
             position.Y = top;
