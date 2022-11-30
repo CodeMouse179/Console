@@ -92,6 +92,38 @@ namespace System
         }
 
     public: //Properties:
+        static bool GetCursorVisible()
+        {
+            int outputHandle = Console::OutputHandle();
+            if (outputHandle == 0) return false;
+#ifdef SYSTEM_WINDOWS
+            HANDLE stdOutputHandle = (HANDLE)outputHandle;
+            if (stdOutputHandle == NULL) return false;
+            if (stdOutputHandle == INVALID_HANDLE_VALUE) return false;
+            CONSOLE_CURSOR_INFO cci;
+            BOOL bGetConsoleCursorInfo = GetConsoleCursorInfo(stdOutputHandle, &cci);
+            if (!bGetConsoleCursorInfo) return false;
+            return cci.bVisible;
+#endif
+        }
+
+        static bool SetCursorVisible(bool visible)
+        {
+            int outputHandle = Console::OutputHandle();
+            if (outputHandle == 0) return false;
+#ifdef SYSTEM_WINDOWS
+            HANDLE stdOutputHandle = (HANDLE)outputHandle;
+            if (stdOutputHandle == NULL) return false;
+            if (stdOutputHandle == INVALID_HANDLE_VALUE) return false;
+            CONSOLE_CURSOR_INFO cci;
+            BOOL bGetConsoleCursorInfo = GetConsoleCursorInfo(stdOutputHandle, &cci);
+            if (!bGetConsoleCursorInfo) return false;
+            cci.bVisible = visible;
+            BOOL bSetConsoleCursorInfo = SetConsoleCursorInfo(stdOutputHandle, &cci);
+            return bSetConsoleCursorInfo;
+#endif
+        }
+
         static int InputHandle()
         {
             return ConsoleIO::GetInstance().GetInputHandle();
