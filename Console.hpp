@@ -1,27 +1,96 @@
-﻿//     +--------------------------------------------------------------------------------+
-//     |                                  Console v0.5.2                                |
-//     |  Introduction : System.Console in C++                                          |
-//     |  Modified Date : 2022/12/4                                                     |
-//     |  License : MIT                                                                 |
-//     |  Source Code : https://github.com/CodeMouse179/Console                         |
-//     |  Readme : https://github.com/CodeMouse179/Console/blob/main/README.md          |
-//     |                                                                                |
-//     |                             Designer : CodeMouse179                            |
-//     |  Email : codemouse179@gmail.com                                                |
-//     |  Github : https://github.com/CodeMouse179                                      |
-//     |  Bilibili : https://space.bilibili.com/3461577785215838                        |
-//     +--------------------------------------------------------------------------------+
+﻿//      +--------------------------------------------------------------------------------+
+//      |                                     Console                                    |
+//      |  Modified Date : 2023/3/14                                                     |
+//      |  Introduction : System.Console in C++                                          |
+//      |  License : MIT                                                                 |
+//      |  Platform : Windows, Linux, macOS                                              |
+//      |  C++ Required Version : C++ 11                                                 |
+//      |  API Family : https://github.com/CodeMouse179/System                           |
+//      |  Repository : https://github.com/CodeMouse179/Console                          |
+//      |                                                                                |
+//      |                             Designer : CodeMouse179                            |
+//      |  Email : codemouse179@gmail.com                                                |
+//      |  Github : https://github.com/CodeMouse179                                      |
+//      |  Bilibili : https://space.bilibili.com/3461577785215838                        |
+//      +--------------------------------------------------------------------------------+
 
 #ifndef SYSTEM_CONSOLE_HPP
 #define SYSTEM_CONSOLE_HPP
 
-//Versioning refer to Semantic Versioning 2.0.0 : https://semver.org/
-
 #define SYSTEM_CONSOLE_VERSION_MAJOR 0
-#define SYSTEM_CONSOLE_VERSION_MINOR 5
-#define SYSTEM_CONSOLE_VERSION_PATCH 2
+#define SYSTEM_CONSOLE_VERSION_MINOR 0
+#define SYSTEM_CONSOLE_VERSION_PATCH 0
 #define SYSTEM_CONSOLE_VERSION (SYSTEM_CONSOLE_VERSION_MAJOR << 16 | SYSTEM_CONSOLE_VERSION_MINOR << 8 | SYSTEM_CONSOLE_VERSION_PATCH)
-#define SYSTEM_CONSOLE_VERSION_STRING "0.5.2"
+#define SYSTEM_CONSOLE_VERSION_STRING "0.0.0"
+
+//--------------------System.hpp START--------------------
+
+//Windows Platform:
+#if defined(WIN32) || defined(_WIN32)
+#define SYSTEM_WINDOWS 1
+#endif
+
+//Linux Platform:
+#if defined(__linux__)
+#define SYSTEM_LINUX 1
+#endif
+
+//macOS Platform:
+#if defined(__APPLE__) && defined(__MACH__)
+#define SYSTEM_MACOS 1
+#elif defined(__APPLE__)
+#define SYSTEM_MACOS 2
+#endif
+
+//POSIX Platform:
+#if defined(SYSTEM_LINUX) || defined(SYSTEM_MACOS)
+#define SYSTEM_POSIX 1
+#endif
+
+//C++ Language:
+#if defined(__cplusplus)
+#define SYSTEM_CXX 1
+#endif
+
+//C++ Version Definition(Windows):
+#if defined(SYSTEM_WINDOWS) && defined(_MSVC_LANG)
+#if (_MSVC_LANG >= 199711L)
+#define SYSTEM_CXX_98 1
+#endif
+#if (_MSVC_LANG >= 201103L)
+#define SYSTEM_CXX_11 1
+#endif
+#if (_MSVC_LANG >= 201402L)
+#define SYSTEM_CXX_14 1
+#endif
+#if (_MSVC_LANG >= 201703L)
+#define SYSTEM_CXX_17 1
+#endif
+#if (_MSVC_LANG >= 202002L)
+#define SYSTEM_CXX_20 1
+#endif
+#endif
+
+//C++ Version Definition(POSIX):
+#if defined(SYSTEM_POSIX) && defined(__cplusplus)
+#if (__cplusplus >= 199711L)
+#define SYSTEM_CXX_98 1
+#endif
+#if (__cplusplus >= 201103L)
+#define SYSTEM_CXX_11 1
+#endif
+#if (__cplusplus >= 201402L)
+#define SYSTEM_CXX_14 1
+#endif
+#if (__cplusplus >= 201703L)
+#define SYSTEM_CXX_17 1
+#endif
+#if (__cplusplus >= 202002L)
+#define SYSTEM_CXX_20 1
+#endif
+#endif
+
+//--------------------System.hpp END--------------------
 
 #include "String.hpp"       //System.String for C++
 #include "Singleton.hpp"    //CodeMouse.Singleton for C++
