@@ -1,7 +1,19 @@
-# Console 0.5.0
+# Console
 
-System.Console in C++
+[README - 中文](https://github.com/CodeMouse179/Console/blob/main/Doc/README_CN.md)
 
-[String.hpp](https://github.com/CodeMouse179/String)
+[README - русский](https://github.com/CodeMouse179/Console/blob/main/Doc/README_RU.md)
 
-[Singleton.hpp](https://github.com/CodeMouse179/Singleton)
+[README - türkçe](https://github.com/CodeMouse179/Console/blob/main/Doc/README_TR.md)
+
+## System.Console in C++
+
+License : MIT
+
+Platform : Windows, Linux, macOS
+
+C++ Required Version : C++ 11
+
+API Family : [System](https://github.com/CodeMouse179/System)
+
+## Introduce
