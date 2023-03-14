@@ -1,7 +1,7 @@
 ﻿//     +--------------------------------------------------------------------------------+
 //     |                                  Console v0.5.2                                |
 //     |  Introduction : System.Console in C++                                          |
-//     |  Modified Date : 2022/11/30                                                    |
+//     |  Modified Date : 2022/12/4                                                     |
 //     |  License : MIT                                                                 |
 //     |  Source Code : https://github.com/CodeMouse179/Console                         |
 //     |  Readme : https://github.com/CodeMouse179/Console/blob/main/README.md          |
@@ -109,9 +109,21 @@ namespace System
 
         static bool SetCursorVisible(bool visible)
         {
+#ifdef SYSTEM_WINDOWS
+#ifdef SYSTEM_CONSOLE_FORCE_VT
+            std::string s;
+            if (visible)
+            {
+                s = StringA::Format(U8("{0}[?25h"), U8(ESC));
+            }
+            else
+            {
+                s = StringA::Format(U8("{0}[?25l"), U8(ESC));
+            }
+            return Console::Write(s);
+#else
             int outputHandle = Console::OutputHandle();
             if (outputHandle == 0) return false;
-#ifdef SYSTEM_WINDOWS
             HANDLE stdOutputHandle = (HANDLE)outputHandle;
             if (stdOutputHandle == NULL) return false;
             if (stdOutputHandle == INVALID_HANDLE_VALUE) return false;
@@ -121,6 +133,19 @@ namespace System
             cci.bVisible = visible;
             BOOL bSetConsoleCursorInfo = SetConsoleCursorInfo(stdOutputHandle, &cci);
             return bSetConsoleCursorInfo;
+#endif
+#endif
+#ifdef SYSTEM_LINUX
+            std::string s;
+            if (visible)
+            {
+                s = StringA::Format(U8("{0}[?25h"), U8(ESC));
+            }
+            else
+            {
+                s = StringA::Format(U8("{0}[?25l"), U8(ESC));
+            }
+            return Console::Write(s);
 #endif
         }
 
@@ -132,6 +157,44 @@ namespace System
         static int OutputHandle()
         {
             return ConsoleIO::GetInstance().GetOutputHandle();
+        }
+
+        static std::string GetTitle()
+        {
+            std::string title;
+#ifdef SYSTEM_WINDOWS
+            wchar_t titleBuffer[MAX_PATH];
+            DWORD ret = GetConsoleTitleW(titleBuffer, MAX_PATH);
+            if (ret > 0)
+            {
+                title = StringA::WstringToString(titleBuffer, System::StringEncoding::UTF8);
+            }
+#endif
+            return title;
+        }
+
+        static bool SetTitle(const std::string& title)
+        {
+#ifdef SYSTEM_WINDOWS
+            std::wstring titleW;
+#ifdef SYSTEM_CONSOLE_ONLY_UTF8
+            titleW = StringA::StringToWstring(title, System::StringEncoding::UTF8);
+#else
+            if (StringA::IsValidUTF8(title))
+            {
+                titleW = StringA::StringToWstring(title, System::StringEncoding::UTF8);
+            }
+            else
+            {
+                titleW = StringA::StringToWstring(title, System::StringEncoding::ANSI);
+            }
+#endif
+            BOOL ret = SetConsoleTitleW(titleW.c_str());
+            return ret;
+#endif
+#ifdef SYSTEM_LINUX
+            return false;
+#endif
         }
 
     public: //Methods:
