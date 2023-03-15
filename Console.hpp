@@ -1,6 +1,6 @@
 ﻿//      +--------------------------------------------------------------------------------+
 //      |                                     Console                                    |
-//      |  Modified Date : 2023/3/14                                                     |
+//      |  Modified Date : 2023/3/15                                                     |
 //      |  Introduction : System.Console in C++                                          |
 //      |  License : MIT                                                                 |
 //      |  Platform : Windows, Linux, macOS                                              |
@@ -92,8 +92,17 @@
 
 //--------------------System.hpp END--------------------
 
-#include "String.hpp"       //System.String for C++
-#include "Singleton.hpp"    //CodeMouse.Singleton for C++
+//Windows Headers:
+#ifdef SYSTEM_WINDOWS
+#endif
+
+//POSIX Headers:
+#ifdef SYSTEM_POSIX
+#endif
+
+//C++ Headers:
+#ifdef SYSTEM_CXX
+#endif
 
 #ifndef ESC
 #define ESC "\033"   //00011011 = 033 = 27 = 0x1b

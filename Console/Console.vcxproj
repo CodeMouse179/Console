@@ -140,8 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Console.hpp" />
-    <ClInclude Include="..\Singleton.hpp" />
-    <ClInclude Include="..\String.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Example.cpp" />
